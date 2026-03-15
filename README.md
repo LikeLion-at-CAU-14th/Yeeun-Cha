@@ -1,22 +1,72 @@
 # Yeeun-Cha
 
+![header](https://capsule-render.vercel.app/api?type=waving&color=0:ffb6c1,100:ffc0cb&height=200&section=header&text=Gihyeon's%20GitHub&fontSize=40&fontColor=ffffff)
 
+# 👋 Hello, I'm Gihyeon
 
-\## 차예은
+![visitors](https://komarev.com/ghpvc/?username=YOUR_GITHUB_ID&color=ff69b4)
 
+🎓 Chung-Ang University  
+💻 Interested in Web Development / AI / Data  
+🚀 Future AI & Software Developer
 
+---
 
-중앙대학교 예술공학과 재학
+## 🧑‍💻 About Me
 
-사이버보안 융합전공
+- 🎂 2003
+- 🎓 Chung-Ang University
+- 🌏 Seoul, Korea
 
-차세대 반도체 복수전공
+---
 
+## 🛠 Tech Stack
 
+### Languages
 
-AI와 SW 서비스 개발 및 머신러닝
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
-멋쟁이 사자처럼 14기 아기사자
+### Frontend
+
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+
+### Tools
+
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+![VSCode](https://img.shields.io/badge/VSCode-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white)
+
+---
+
+## 📚 Currently Studying
+
+- Data Structures
+- Computer Graphics
+- Machine Learning
+
+---
+
+## 📊 GitHub Stats
+
+![stats](https://github-readme-stats.vercel.app/api?username=YOUR_GITHUB_ID&show_icons=true&theme=tokyonight)
+
+---
+
+## 📈 Activity Graph
+
+![graph](https://github-readme-activity-graph.vercel.app/graph?username=YOUR_GITHUB_ID&theme=tokyo-night)
+
+---
+
+## 📫 Contact
+
+[![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/yeeeaneun/)
+
+[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:chayaeeun25@naver.com)
+
+---
+
+⭐ Thanks for visiting my GitHub!
 
 
 
