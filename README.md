@@ -1,11 +1,11 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=0:ff9a9e,100:fad0c4&height=220&section=header&text=%EC%B0%A8%EC%98%88%EC%9D%80%20%7C%20Cha%20Yeeun&fontSize=45&fontColor=ffffff)
+![header](https://capsule-render.vercel.app/api?type=waving&color=0:89f7fe,100:66a6ff&height=220&section=header&text=%EC%B0%A8%EC%98%88%EC%9D%80%20%7C%20Cha%20Yeeun&fontSize=45&fontColor=ffffff)
 
-# Cha Yeeun
+# 👋 Hi, I'm Cha Yeeun
 <p align="center">
-<img src="https://readme-typing-svg.herokuapp.com/?lines=Welcome+to+my+GitHub+!;LIKELION+14th;Baby+Backend+Developer+lion&font=Fira%20Code&size=25&center=true&width=600&height=60&color=58A6FF">
+<img src="https://readme-typing-svg.herokuapp.com/?lines=Welcome+to+my+GitHub+!;LIKELION+14th;Baby+Backend+Developer+🦁&font=Fira%20Code&size=25&center=true&width=600&height=60&color=58A6FF">
 </p>
 
-![visitors](https://komarev.com/ghpvc/?username=yeankong&label=Profile%20Views&color=ff69b4&style=flat)
+![visitors](https://komarev.com/ghpvc/?username=yeankong&label=Profile%20Views&color=0e75b6&style=flat)
 
 안녕하세요! 👋  
 멋쟁이사자처럼 **14기 백엔드 파트 아기사자 차예은 입니다.** 🦁
@@ -52,6 +52,7 @@
 # 📊 GitHub Stats
 
 ![GitHub stats](https://github-readme-stats.vercel.app/api?username=yeankong&show_icons=true&theme=tokyonight)
+![Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=yeankong&theme=tokyo-night)
 
 ---
 
