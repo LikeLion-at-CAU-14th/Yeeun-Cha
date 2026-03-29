@@ -59,6 +59,7 @@ DJANGO_APPS = [
 
 PROJECT_APPS = [
  'posts',
+ 'accounts',
 ]
 
 THIRD_PARTY_APPS = [
@@ -145,3 +146,4 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 
+AUTH_USER_MODEL = 'accounts.User'
