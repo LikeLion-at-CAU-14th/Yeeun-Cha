@@ -40,6 +40,7 @@ class Comment(BaseModel):
     id = models.AutoField(primary_key=True)
     content = models.TextField()
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
-
+    writer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    
     def __str__(self):
-        return self.content[:20]
+        return f"{self.writer.username}님의 댓글: {self.content[:50]}"
