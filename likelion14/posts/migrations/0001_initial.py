@@ -19,11 +19,11 @@ class Migration(migrations.Migration):
             fields=[
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('id', models.AutoField(primary_key=True, serialize=False)),
+                ('post_id', models.AutoField(primary_key=True, serialize=False)),
                 ('title', models.CharField(max_length=50)),
                 ('content', models.TextField()),
                 ('status', models.CharField(choices=[('STORED', '보관'), ('PUBLISHED', '발행')], default='STORED', max_length=10)),
-                ('writer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='post', to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='posts', to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'abstract': False,
