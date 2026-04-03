@@ -24,11 +24,11 @@ class Post(BaseModel): # BaseModel을 상속받음
         ('PUBLISHED', '발행')
     )
 
-    post_id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=50)
     content = models.TextField()
     status = models.CharField(max_length=10, choices=CHOICES, default='STORED')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
+    writer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     categories = models.ManyToManyField(Category, related_name='posts')
 
     def __str__(self):
