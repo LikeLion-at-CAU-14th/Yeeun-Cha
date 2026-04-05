@@ -138,3 +138,62 @@ def post_list(request):
             'data' : post_all_json
         })
     
+
+# 특정 게시글에 포함된 모든 댓글 조회
+@require_http_methods(["GET"])
+def comment_list(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    comments = post.comments.all()
+
+    comment_list_json = []
+
+    for comment in comments:
+        comment_json = {
+            "id": comment.id,
+            "content": comment.content,
+            "user": comment.user.username,
+            "post_id": comment.post.id,
+            "created_at": comment.created_at,
+            "updated_at": comment.updated_at,
+        }
+        comment_list_json.append(comment_json)
+
+    return JsonResponse({
+        "status": 200,
+        "message": "댓글 목록 조회 성공",
+        "data": {
+            "post_id": post.id,
+            "post_title": post.title,
+            "comments": comment_list_json
+        }
+    })
+
+
+# 카테고리별 게시글 조회 (최신순)
+@require_http_methods(["GET"])
+def category_post_list_by_name(request, category_name):
+    category = get_object_or_404(Category, name=category_name)
+    posts = category.posts.all().order_by('-created_at')
+
+    post_list_json = []
+
+    for post in posts:
+        post_json = {
+            "id": post.id,
+            "title": post.title,
+            "content": post.content,
+            "status": post.status,
+            "writer": post.writer.username,
+            "created_at": post.created_at,
+            "updated_at": post.updated_at,
+        }
+        post_list_json.append(post_json)
+
+    return JsonResponse({
+        "status": 200,
+        "message": "카테고리 이름으로 게시글 조회 성공",
+        "data": {
+            "category_name": category.name,
+            "posts": post_list_json
+        }
+    })
