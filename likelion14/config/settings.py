@@ -77,6 +77,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'config.middleware.RequestLoggingMiddleware',  #logging
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -160,4 +161,46 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [ 
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+
 ]
+
+# logging 설정
+import os
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+
+    'formatters': {
+        'custom': {
+            'format': '[{asctime}] [{levelname}] {message}',
+            'style': '{',
+        },
+    },
+
+    'handlers': {
+        # 전체 로그
+        'file_all': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'all.log'),
+            'formatter': 'custom',
+        },
+
+        # WARNING 이상
+        'file_error': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'errors.log'),
+            'formatter': 'custom',
+        },
+    },
+
+    'loggers': {
+        'django': {
+            'handlers': ['file_all', 'file_error'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}

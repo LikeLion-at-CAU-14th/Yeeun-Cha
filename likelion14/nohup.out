@@ -1,0 +1,45 @@
+Watching for file changes with StatReloader
+[12/Apr/2026 10:04:24] "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4080
+[12/Apr/2026 10:04:48] "GET /admin/ HTTP/1.1" 302 0
+[12/Apr/2026 10:04:48] "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4080
+[12/Apr/2026 11:06:11] code 400, message Bad request version ('\xc0#\xc0\xac\xc0\xae\xc0+\xc0')
+[12/Apr/2026 11:06:11] You're accessing the development server over HTTPS, but it only supports HTTP.
+Not Found: /
+[12/Apr/2026 11:06:14] "GET / HTTP/1.1" 404 2308
+Not Found: /favicon.ico
+[12/Apr/2026 11:08:09] "GET /favicon.ico HTTP/1.1" 404 2359
+/home/ubuntu/Yeeun-Cha/likelion14/config/settings.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+April 12, 2026 - 10:04:03
+Django version 6.0.3, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/
+Watching for file changes with StatReloader
+/home/ubuntu/Yeeun-Cha/likelion14/config/settings.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+April 12, 2026 - 11:16:02
+Django version 6.0.3, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/
+Watching for file changes with StatReloader
+/home/ubuntu/Yeeun-Cha/likelion14/config/settings.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+April 12, 2026 - 11:17:18
+Django version 6.0.3, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/
