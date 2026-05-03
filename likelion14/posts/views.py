@@ -3,9 +3,130 @@ from django.shortcuts import render
 from django.http import JsonResponse # 추가 
 from django.shortcuts import get_object_or_404 # 추가
 from django.views.decorators.http import require_http_methods
+from requests import post
 from .models import *
 import json
 
+from .serializers import PostSerializer
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.http import Http404
+
+class PostList(APIView):
+    def post(self, request, format=None):
+        serializer = PostSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get(self, request, format=None):
+        posts = Post.objects.all()
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)
+
+    
+
+class PostDetail(APIView):
+    def get(self, request, post_id):
+        post = get_object_or_404(Post, id=post_id)
+        serializer = PostSerializer(post)
+        return Response(serializer.data)
+    
+    def put(self, request, post_id):
+        post = get_object_or_404(Post, id=post_id)
+        serializer = PostSerializer(post, data=request.data)
+        if serializer.is_valid(): # update이니까 유효성 검사 필요
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, post_id):
+        post = get_object_or_404(Post, id=post_id)
+        post.delete()
+        return Response(
+            {
+                'status': 204,
+                'message': '게시글 삭제 성공',
+                'data': None
+            },
+            status=status.HTTP_204_NO_CONTENT
+        )
+    
+class CommentList(APIView):
+
+    # 게시글에 달린 댓글 조회
+    def get(self, request, post_id):
+        post = get_object_or_404(Post, id=post_id)
+        comments = post.comments.all()
+
+        comment_list_json = []
+
+        for comment in comments:
+            comment_json = {
+                "id": comment.id,
+                "content": comment.content,
+                "user": comment.user.username,
+                "post_id": comment.post.id,
+                "created_at": comment.created_at,
+                "updated_at": comment.updated_at,
+            }
+            comment_list_json.append(comment_json)
+
+        return Response({
+            "status": 200,
+            "message": "댓글 목록 조회 성공",
+            "data": {
+                "post_id": post.id,
+                "post_title": post.title,
+                "comments": comment_list_json
+            }
+        }, status=status.HTTP_200_OK)
+    
+     # 게시글에 댓글 작성
+    def post(self, request, post_id):
+        post = get_object_or_404(Post, id=post_id)
+
+        user_id = request.data.get("user")
+        user = get_object_or_404(User, id=user_id)
+
+        content = request.data.get("content")
+
+        comment = Comment.objects.create(
+            post=post,
+            user=user,
+            content=content
+        )
+
+        return Response({
+            "status": 201,
+            "message": "댓글 작성 성공",
+            "data": {
+                "id": comment.id,
+                "content": comment.content,
+                "user": comment.user.username,
+                "post_id": comment.post.id,
+                "created_at": comment.created_at,
+                "updated_at": comment.updated_at,
+            }
+        }, status=status.HTTP_201_CREATED)
+
+class CommentDetail(APIView):
+    # 게시글에 달린 댓글 삭제
+    def delete(self, request, post_id, comment_id):
+        post = get_object_or_404(Post, id=post_id)
+        comment = get_object_or_404(Comment, id=comment_id, post=post)
+
+        comment.delete()
+
+        return Response({
+            "status": 200,
+            "message": "댓글 삭제 성공",
+            "data": None
+        }, status=status.HTTP_200_OK)
+
+#-----
 
 # Create your views here.
 
