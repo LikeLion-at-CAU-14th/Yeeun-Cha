@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse # 추가 
 from django.shortcuts import get_object_or_404 # 추가
 from django.views.decorators.http import require_http_methods
-from requests import post
+from requests import post, request
 from .models import *
 import json
 
@@ -65,14 +65,15 @@ class CommentList(APIView):
 
     def post(self, request, post_id):
         post = get_object_or_404(Post, id=post_id)
+        user = get_object_or_404(User, id=request.data.get("user"))
 
         serializer = CommentSerializer(data=request.data)
+
         if serializer.is_valid():
-            serializer.save(post=post)
+            serializer.save(post=post, user=user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
      
 
 class CommentDetail(APIView):
@@ -82,7 +83,12 @@ class CommentDetail(APIView):
         comment = get_object_or_404(Comment, id=comment_id, post=post)
 
         comment.delete()
-        return Response({"message": "댓글 삭제 성공"}, status=status.HTTP_200_OK)
+        return Response(
+            {
+                "message": "댓글 삭제 성공"
+            },
+            status=status.HTTP_200_OK
+        )
 #-----
 
 # Create your views here.
