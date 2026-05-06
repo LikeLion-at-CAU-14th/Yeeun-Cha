@@ -3,9 +3,93 @@ from django.shortcuts import render
 from django.http import JsonResponse # 추가 
 from django.shortcuts import get_object_or_404 # 추가
 from django.views.decorators.http import require_http_methods
+#from httpcore import request
+# from requests import post, request
 from .models import *
 import json
 
+from .serializers import PostSerializer , CommentSerializer
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.http import Http404
+from django.contrib.auth.models import User
+
+class PostList(APIView):
+    def post(self, request, format=None):
+        serializer = PostSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get(self, request, format=None):
+        posts = Post.objects.all()
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)
+
+    
+
+class PostDetail(APIView):
+    def get(self, request, post_id):
+        post = get_object_or_404(Post, id=post_id)
+        serializer = PostSerializer(post)
+        return Response(serializer.data)
+    
+    def put(self, request, post_id):
+        post = get_object_or_404(Post, id=post_id)
+        serializer = PostSerializer(post, data=request.data)
+        if serializer.is_valid(): # update이니까 유효성 검사 필요
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, post_id):
+        post = get_object_or_404(Post, id=post_id)
+        post.delete()
+        return Response(
+            {
+                'status': 204,
+                'message': '게시글 삭제 성공',
+                'data': None
+            },
+            status=status.HTTP_204_NO_CONTENT
+        )
+    
+class CommentList(APIView):
+
+    # 게시글에 달린 댓글 조회
+    def get(self, request, post_id):
+        post = get_object_or_404(Post, id=post_id)
+        comments = post.comments.all()
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, post_id, format=None):
+        post_instance = get_object_or_404(Post, pk=post_id)
+    
+        serializer = CommentSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save(post=post_instance)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CommentDetail(APIView):
+    # 게시글에 달린 댓글 삭제
+    def delete(self, request, post_id, comment_id):
+        post = get_object_or_404(Post, id=post_id)
+        comment = get_object_or_404(Comment, id=comment_id, post=post)
+
+        comment.delete()
+        return Response(
+            {
+                "message": "댓글 삭제 성공"
+            },
+            status=status.HTTP_200_OK
+        )
+#-----
 
 # Create your views here.
 
