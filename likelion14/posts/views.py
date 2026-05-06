@@ -3,16 +3,18 @@ from django.shortcuts import render
 from django.http import JsonResponse # 추가 
 from django.shortcuts import get_object_or_404 # 추가
 from django.views.decorators.http import require_http_methods
-from requests import post, request
+#from httpcore import request
+# from requests import post, request
 from .models import *
 import json
 
-from .serializers import PostSerialize, CommentSerializer
+from .serializers import PostSerializer , CommentSerializer
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import Http404
+from django.contrib.auth.models import User
 
 class PostList(APIView):
     def post(self, request, format=None):
@@ -63,18 +65,16 @@ class CommentList(APIView):
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def post(self, request, post_id):
-        post = get_object_or_404(Post, id=post_id)
-        user = get_object_or_404(User, id=request.data.get("user"))
-
+    def post(self, request, post_id, format=None):
+        post_instance = get_object_or_404(Post, pk=post_id)
+    
         serializer = CommentSerializer(data=request.data)
 
         if serializer.is_valid():
-            serializer.save(post=post, user=user)
+            serializer.save(post=post_instance)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-     
 
 class CommentDetail(APIView):
     # 게시글에 달린 댓글 삭제

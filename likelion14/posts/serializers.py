@@ -1,11 +1,6 @@
 ### Model Serializer case
-
-from xml.etree.ElementTree import Comment
-
-from xml.etree.ElementTree import Comment
-
 from rest_framework import serializers
-from .models import Post
+from .models import Post, Comment
 
 class PostSerializer(serializers.ModelSerializer):
 
@@ -14,8 +9,8 @@ class PostSerializer(serializers.ModelSerializer):
     fields = "__all__"  # 모델에서 어떤 필드를 가져올지 >> 전체 필드
 
 class CommentSerializer(serializers.ModelSerializer):
-  user = serializers.StringRelatedField(read_only=True)
 
   class Meta:
     model = Comment
     fields = '__all__'
+    read_only_fields = ["post"]
