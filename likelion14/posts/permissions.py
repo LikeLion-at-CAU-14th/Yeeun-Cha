@@ -1,4 +1,4 @@
-from datetime import datetime
+from django.utils import timezone
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 
@@ -6,7 +6,7 @@ class IsNotNightTime(BasePermission):
     message = "밤 10시부터 아침 7시까지는 게시판을 이용할 수 없습니다."
 
     def has_permission(self, request, view):
-        now_hour = datetime.now().hour
+        now_hour = timezone.localtime().hour
 
         # 밤 10시 이상 또는 아침 7시 전이면 접근 제한
         if now_hour >= 22 or now_hour < 7:
