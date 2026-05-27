@@ -3,61 +3,71 @@ from django.shortcuts import render
 from django.http import JsonResponse # 추가 
 from django.shortcuts import get_object_or_404 # 추가
 from django.views.decorators.http import require_http_methods
+
+from posts.permissions import IsNotNightTime, IsOwnerOrReadOnly
 #from httpcore import request
 # from requests import post, request
 from .models import *
 import json
 
-from .serializers import PostSerializer , CommentSerializer
+from .serializers import PostSerializer , CommentSerializer , CategorySerializer
+
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import Http404
 from django.contrib.auth.models import User
+from rest_framework.permissions import IsAuthenticatedOrReadOnly # jwt 세션
 
 class PostList(APIView):
-    def post(self, request, format=None):
-        serializer = PostSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    def get(self, request, format=None):
+    permission_classes = [IsNotNightTime, IsAuthenticatedOrReadOnly]
+
+    def get(self, request):
         posts = Post.objects.all()
         serializer = PostSerializer(posts, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def post(self, request):
+        serializer = PostSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(writer=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
 class PostDetail(APIView):
-    def get(self, request, post_id):
+    permission_classes = [IsNotNightTime, IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+    def get_object(self, post_id):
         post = get_object_or_404(Post, id=post_id)
+        self.check_object_permissions(self.request, post)
+        return post
+    
+    def get(self, request, post_id):
+        post = self.get_object(post_id)
         serializer = PostSerializer(post)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
     def put(self, request, post_id):
-        post = get_object_or_404(Post, id=post_id)
+        post = self.get_object(post_id)
         serializer = PostSerializer(post, data=request.data)
         if serializer.is_valid(): # update이니까 유효성 검사 필요
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def delete(self, request, post_id):
-        post = get_object_or_404(Post, id=post_id)
+        post = self.get_object(post_id)
         post.delete()
         return Response(
-            {
-                'status': 204,
-                'message': '게시글 삭제 성공',
-                'data': None
-            },
-            status=status.HTTP_204_NO_CONTENT
+            {"message": "게시글이 삭제되었습니다."},
+            status=status.HTTP_200_OK
         )
+
     
 class CommentList(APIView):
-
+    permission_classes = [IsAuthenticatedOrReadOnly]
     # 게시글에 달린 댓글 조회
     def get(self, request, post_id):
         post = get_object_or_404(Post, id=post_id)
@@ -89,6 +99,21 @@ class CommentDetail(APIView):
             },
             status=status.HTTP_200_OK
         )
+    
+class CategoryList(APIView):
+    def get(self, request):
+        categories = Category.objects.all()
+        serializer = CategorySerializer(categories, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer = CategorySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
 #-----
 
 # Create your views here.
