@@ -66,6 +66,13 @@ THIRD_PARTY_APPS = [
   "corsheaders",
   "rest_framework",
   'rest_framework_simplejwt',
+  # ... 11주차 내용
+  "allauth",
+  "allauth.account",
+  "allauth.socialaccount",
+  "allauth.socialaccount.providers.google",
+  # "allauth.socialaccount.providers.{제공_업체}" 찾아서 사용 가능
+
 ]
 
 
@@ -80,7 +87,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'config.middleware.RequestLoggingMiddleware',  #logging
+    "allauth.account.middleware.AccountMiddleware",  # 11주차 OAuth 세션 에서 추가 
+
 ]
+#-- 11주차 추가 내용
+ACCOUNT_LOGIN_METHODS = {'email'}                  # 로그인 방식 설정
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*']    # 회원가입 시 필수 입력 필드 설정 
+#--
 
 ROOT_URLCONF = 'config.urls'
 
